@@ -3,4 +3,5 @@ project(apps)
 
 # add_subdirectory(CUDASampleExample)
 # add_subdirectory(SampleExample)
-add_subdirectory(01_Intro)
+# add_subdirectory(01_Intro)
+add_subdirectory(Text_Editor_Sample)

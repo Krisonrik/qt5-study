@@ -20,7 +20,10 @@ ${PROJECT_SOURCE_DIR}/include/Hvr/MainWindow/MainWindow.h
 source_group("include" FILES ${PROJECT_INCS})
 source_group("src"     FILES ${PROJECT_SRCS})
 
-find_package(Qt5Core REQUIRED)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+
+# find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 
 
@@ -42,7 +45,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                           $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                           $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>)
 
-target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+
+# target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Widgets)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY
             FOLDER ${CMAKE_PROJECT_NAME}/modules)

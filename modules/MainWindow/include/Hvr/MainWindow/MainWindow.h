@@ -1,4 +1,4 @@
-// Copyright 2015 Jason Juang
+// Copyright 2018 Qi Yao
 
 #ifndef MODULES_MAINWINDOW_INCLUDE_HVR_MAINWINDOW_MAINWINDOW_H_
 #define MODULES_MAINWINDOW_INCLUDE_HVR_MAINWINDOW_MAINWINDOW_H_
@@ -37,6 +37,7 @@ class MainWindow : public QMainWindow
   void closeEvent(QCloseEvent *event) override;
 
  private Q_SLOTS:  // NOLINT
+
   void newFile();
   void open();
   bool save();
