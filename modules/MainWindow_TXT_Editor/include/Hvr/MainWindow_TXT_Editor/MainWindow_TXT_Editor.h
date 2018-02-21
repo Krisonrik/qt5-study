@@ -21,19 +21,19 @@ namespace hvr
  * @author     Jason Juang
  * @attention  This is for internal use only, DO NOT distribute the code
  */
-class MainWindow : public QMainWindow
+class MainWindow_TXT_Editor : public QMainWindow
 {
   Q_OBJECT
 
  public:
-  HVR_SAMPLE_DLL
-  MainWindow();
+  MAINWINDOW_TEXT_EDITOR_DLL
+  MainWindow_TXT_Editor();
 
-  HVR_SAMPLE_DLL
+  MAINWINDOW_TEXT_EDITOR_DLL
   void loadFile(const QString &fileName);
 
  protected:
-  HVR_SAMPLE_DLL
+  MAINWINDOW_TEXT_EDITOR_DLL
   void closeEvent(QCloseEvent *event) override;
 
  private Q_SLOTS:  // NOLINT

@@ -1,6 +1,6 @@
 // Copyright 2018 Qi Yao
 
-#include "Hvr/MainWindow/MainWindow.h"
+#include "Hvr/MainWindow_TXT_Editor/MainWindow_TXT_Editor.h"
 
 HVR_WINDOWS_DISABLE_ALL_WARNING
 #include <QtWidgets>
@@ -10,7 +10,8 @@ HVR_WINDOWS_ENABLE_ALL_WARNING
 
 namespace hvr
 {
-MainWindow::MainWindow() : textEdit_(std::make_shared<QPlainTextEdit>())
+MainWindow_TXT_Editor::MainWindow_TXT_Editor()
+    : textEdit_(std::make_shared<QPlainTextEdit>())
 {
   setCentralWidget(textEdit_.get());
 
@@ -22,19 +23,21 @@ MainWindow::MainWindow() : textEdit_(std::make_shared<QPlainTextEdit>())
   connect(textEdit_->document(),
           &QTextDocument::contentsChanged,
           this,
-          &MainWindow::documentWasModified);
+          &MainWindow_TXT_Editor::documentWasModified);
 
 #ifndef QT_NO_SESSIONMANAGER
   QGuiApplication::setFallbackSessionManagementEnabled(false);
-  connect(
-      qApp, &QGuiApplication::commitDataRequest, this, &MainWindow::commitData);
+  connect(qApp,
+          &QGuiApplication::commitDataRequest,
+          this,
+          &MainWindow_TXT_Editor::commitData);
 #endif
 
   setCurrentFile(QString());
   setUnifiedTitleAndToolBarOnMac(true);
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow_TXT_Editor::closeEvent(QCloseEvent *event)
 {
   if (maybeSave())
   {
@@ -47,7 +50,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
   }
 }
 
-void MainWindow::newFile()
+void MainWindow_TXT_Editor::newFile()
 {
   if (maybeSave())
   {
@@ -56,7 +59,7 @@ void MainWindow::newFile()
   }
 }
 
-void MainWindow::open()
+void MainWindow_TXT_Editor::open()
 {
   if (maybeSave())
   {
@@ -65,7 +68,7 @@ void MainWindow::open()
   }
 }
 
-bool MainWindow::save()
+bool MainWindow_TXT_Editor::save()
 {
   if (curFile_.isEmpty())
   {
@@ -77,7 +80,7 @@ bool MainWindow::save()
   }
 }
 
-bool MainWindow::saveAs()
+bool MainWindow_TXT_Editor::saveAs()
 {
   QFileDialog dialog(this);
   dialog.setWindowModality(Qt::WindowModal);
@@ -86,7 +89,7 @@ bool MainWindow::saveAs()
   return saveFile(dialog.selectedFiles().first());
 }
 
-void MainWindow::about()
+void MainWindow_TXT_Editor::about()
 {
   QMessageBox::about(
       this,
@@ -96,12 +99,12 @@ void MainWindow::about()
          "toolbars, and a status bar."));
 }
 
-void MainWindow::documentWasModified()
+void MainWindow_TXT_Editor::documentWasModified()
 {
   setWindowModified(textEdit_->document()->isModified());
 }
 
-void MainWindow::createActions()
+void MainWindow_TXT_Editor::createActions()
 {
   QMenu *fileMenu       = menuBar()->addMenu(tr("&File"));
   QToolBar *fileToolBar = addToolBar(tr("File"));
@@ -110,7 +113,7 @@ void MainWindow::createActions()
   QAction *newAct = new QAction(newIcon, tr("&New"), this);
   newAct->setShortcuts(QKeySequence::New);
   newAct->setStatusTip(tr("Create a new file"));
-  connect(newAct, &QAction::triggered, this, &MainWindow::newFile);
+  connect(newAct, &QAction::triggered, this, &MainWindow_TXT_Editor::newFile);
   fileMenu->addAction(newAct);
   fileToolBar->addAction(newAct);
 
@@ -119,7 +122,7 @@ void MainWindow::createActions()
   QAction *openAct = new QAction(openIcon, tr("&Open..."), this);
   openAct->setShortcuts(QKeySequence::Open);
   openAct->setStatusTip(tr("Open an existing file"));
-  connect(openAct, &QAction::triggered, this, &MainWindow::open);
+  connect(openAct, &QAction::triggered, this, &MainWindow_TXT_Editor::open);
   fileMenu->addAction(openAct);
   fileToolBar->addAction(openAct);
 
@@ -128,13 +131,13 @@ void MainWindow::createActions()
   QAction *saveAct = new QAction(saveIcon, tr("&Save"), this);
   saveAct->setShortcuts(QKeySequence::Save);
   saveAct->setStatusTip(tr("Save the document to disk"));
-  connect(saveAct, &QAction::triggered, this, &MainWindow::save);
+  connect(saveAct, &QAction::triggered, this, &MainWindow_TXT_Editor::save);
   fileMenu->addAction(saveAct);
   fileToolBar->addAction(saveAct);
 
   const QIcon saveAsIcon = QIcon::fromTheme("document-save-as");
   QAction *saveAsAct     = fileMenu->addAction(
-      saveAsIcon, tr("Save &As..."), this, &MainWindow::saveAs);
+      saveAsIcon, tr("Save &As..."), this, &MainWindow_TXT_Editor::saveAs);
   saveAsAct->setShortcuts(QKeySequence::SaveAs);
   saveAsAct->setStatusTip(tr("Save the document under a new name"));
 
@@ -188,7 +191,7 @@ void MainWindow::createActions()
 
   QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
   QAction *aboutAct =
-      helpMenu->addAction(tr("&About"), this, &MainWindow::about);
+      helpMenu->addAction(tr("&About"), this, &MainWindow_TXT_Editor::about);
   aboutAct->setStatusTip(tr("Show the application's About box"));
 
   QAction *aboutQtAct =
@@ -209,12 +212,12 @@ void MainWindow::createActions()
 #endif  // !QT_NO_CLIPBOARD
 }
 
-void MainWindow::createStatusBar()
+void MainWindow_TXT_Editor::createStatusBar()
 {
   statusBar()->showMessage(tr("Ready"));
 }
 
-void MainWindow::readSettings()
+void MainWindow_TXT_Editor::readSettings()
 {
   QSettings settings(QCoreApplication::organizationName(),
                      QCoreApplication::applicationName());
@@ -234,14 +237,14 @@ void MainWindow::readSettings()
   }
 }
 
-void MainWindow::writeSettings()
+void MainWindow_TXT_Editor::writeSettings()
 {
   QSettings settings(QCoreApplication::organizationName(),
                      QCoreApplication::applicationName());
   settings.setValue("geometry", saveGeometry());
 }
 
-bool MainWindow::maybeSave()
+bool MainWindow_TXT_Editor::maybeSave()
 {
   if (!textEdit_->document()->isModified()) return true;
   const QMessageBox::StandardButton ret = QMessageBox::warning(
@@ -259,7 +262,7 @@ bool MainWindow::maybeSave()
   return true;
 }
 
-void MainWindow::loadFile(const QString &fileName)
+void MainWindow_TXT_Editor::loadFile(const QString &fileName)
 {
   QFile file(fileName);
   if (!file.open(QFile::ReadOnly | QFile::Text))
@@ -285,7 +288,7 @@ void MainWindow::loadFile(const QString &fileName)
   statusBar()->showMessage(tr("File loaded"), 2000);
 }
 
-bool MainWindow::saveFile(const QString &fileName)
+bool MainWindow_TXT_Editor::saveFile(const QString &fileName)
 {
   QFile file(fileName);
   if (!file.open(QFile::WriteOnly | QFile::Text))
@@ -312,7 +315,7 @@ bool MainWindow::saveFile(const QString &fileName)
   return true;
 }
 
-void MainWindow::setCurrentFile(const QString &fileName)
+void MainWindow_TXT_Editor::setCurrentFile(const QString &fileName)
 {
   QString curFile = fileName;
   textEdit_->document()->setModified(false);
@@ -327,13 +330,13 @@ void MainWindow::setCurrentFile(const QString &fileName)
   setWindowFilePath(shownName);
 }
 
-QString MainWindow::strippedName(const QString &fullFileName)
+QString MainWindow_TXT_Editor::strippedName(const QString &fullFileName)
 {
   return QFileInfo(fullFileName).fileName();
 }
 
 #ifndef QT_NO_SESSIONMANAGER
-void MainWindow::commitData(QSessionManager &manager)
+void MainWindow_TXT_Editor::commitData(QSessionManager &manager)
 {
   if (manager.allowsInteraction())
   {

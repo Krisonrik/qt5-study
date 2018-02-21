@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(MainWindow)
+project(MainWindow_Dock_Widgets)
 
 if(MSVC)
   set(DLLIMPORT "__declspec(dllimport)")
@@ -10,24 +10,31 @@ if(MSVC)
 endif()
 
 set(PROJECT_SRCS
-${PROJECT_SOURCE_DIR}/src/MainWindow.cpp
+${PROJECT_SOURCE_DIR}/src/MainWindow_Dock_Widgets.cpp
 )
 
 set(PROJECT_INCS
-${PROJECT_SOURCE_DIR}/include/Hvr/MainWindow/MainWindow.h
+${PROJECT_SOURCE_DIR}/include/Hvr/MainWindow_Dock_Widgets/MainWindow_Dock_Widgets.h
 )
+
+# set(PROJECT_RCC
+# ${PROJECT_SOURCE_DIR}/resource/dockwidgets.qrc
+# )
 
 source_group("include" FILES ${PROJECT_INCS})
 source_group("src"     FILES ${PROJECT_SRCS})
+# source_group("resource"     FILES ${PROJECT_RCC})
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(CMAKE_AUTOMOC ON)
+# set(CMAKE_AUTORCC ON)
 
 # find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
+find_package(Qt5PrintSupport REQUIRED)
 
 
-add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS} ${PROJECT_INCS})
+add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS} ${PROJECT_INCS}) # ${PROJECT_RCC})
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
 
@@ -36,16 +43,19 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC
                           HVR_WINDOWS_ENABLE_ALL_WARNING=${ENABLE})
 
 target_compile_definitions(${PROJECT_NAME} INTERFACE
-                          HVR_SAMPLE_DLL=${DLLIMPORT})
+                          MAINWINDOW_DOCK_WIDGETS_DLL=${DLLIMPORT})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-                          HVR_SAMPLE_DLL=${DLLEXPORT})
+                          MAINWINDOW_DOCK_WIDGETS_DLL=${DLLEXPORT})
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+                          QT_PRINTSUPPORT_LIB)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
                           $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                           $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>)
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::PrintSupport)
 
 # target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Widgets)
 

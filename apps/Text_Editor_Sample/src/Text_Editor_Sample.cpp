@@ -7,7 +7,7 @@ HVR_WINDOWS_DISABLE_ALL_WARNING
 // #include <iostream>
 HVR_WINDOWS_ENABLE_ALL_WARNING
 
-#include "Hvr/MainWindow/MainWindow.h"
+#include "Hvr/MainWindow_TXT_Editor/MainWindow_TXT_Editor.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   parser.addPositionalArgument("file", "The file to open.");
   parser.process(app);
 
-  hvr::MainWindow mainWin;
+  hvr::MainWindow_TXT_Editor mainWin;
   if (!parser.positionalArguments().isEmpty())
   {
     mainWin.loadFile(parser.positionalArguments().first());
