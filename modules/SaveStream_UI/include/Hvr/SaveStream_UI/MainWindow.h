@@ -5,14 +5,13 @@
 
 HVR_WINDOWS_DISABLE_ALL_WARNING
 #include <memory>
+#include <thread>
 
 #include "QtGui/QSessionManager.h"
 #include "QtWidgets/qmainwindow.h"
 
 HVR_WINDOWS_ENABLE_ALL_WARNING
 
-class QTextEdit;
-class QListWidget;
 class QMenu;
 
 namespace hvr
@@ -24,6 +23,11 @@ class MainWindow : public QMainWindow
  public:
   SAVESTREAM_WIDGETS_DLL
   MainWindow();
+  SAVESTREAM_WIDGETS_DLL
+  ~MainWindow();
+
+  SAVESTREAM_WIDGETS_DLL
+  void StopThread();
 
  private Q_SLOTS:  // NOLINT
 
@@ -34,13 +38,17 @@ class MainWindow : public QMainWindow
   SAVESTREAM_WIDGETS_DLL
   void about();
 
+ Q_SIGNALS:
+  void RefreshTrigger();
+
  private:
+  void GlobalRefresh();
   void createActions();
   void createStatusBar();
   void createDockWindows();
 
-  QListWidget *customerList;
-  QListWidget *paragraphsList;
+  std::thread refresh_thrd_;
+
   QMenu *viewMenu;
 };
 

@@ -20,7 +20,7 @@ class StatusPanel : public QGroupBox
   explicit StatusPanel(QString panel_nam);
 
   SAVESTREAM_WIDGETS_DLL
-  bool SetDispList(QVector<QString> setting_list);
+  bool SetDispList(QMap<QString, QString> setting_list);
 
  private Q_SLOTS:  // NOLINT
 

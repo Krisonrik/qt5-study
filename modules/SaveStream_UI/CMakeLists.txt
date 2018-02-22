@@ -12,11 +12,15 @@ endif()
 set(PROJECT_SRCS
 ${PROJECT_SOURCE_DIR}/src/MainWindow.cpp
 ${PROJECT_SOURCE_DIR}/src/StatusPanel.cpp
+${PROJECT_SOURCE_DIR}/src/BlinkBG.cpp
+
 )
 
 set(PROJECT_INCS
 ${PROJECT_SOURCE_DIR}/include/Hvr/SaveStream_UI/MainWindow.h
 ${PROJECT_SOURCE_DIR}/include/Hvr/SaveStream_UI/StatusPanel.h
+${PROJECT_SOURCE_DIR}/include/Hvr/SaveStream_UI/BlinkBG.h
+
 )
 
 # set(PROJECT_RCC
@@ -34,7 +38,9 @@ find_package(Qt5Widgets REQUIRED)
 # find_package(Qt5PrintSupport REQUIRED)
 
 
-add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS} ${PROJECT_INCS}) 
+add_library(${PROJECT_NAME} SHARED ${PROJECT_SRCS}
+                                    ${PROJECT_INCS}
+                                    )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
 

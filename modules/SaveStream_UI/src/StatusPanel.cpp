@@ -19,17 +19,30 @@ StatusPanel::StatusPanel(QString panel_nam)
   setWindowTitle(tr(panel_nam_.toStdString().c_str()));
 }
 
-bool StatusPanel::SetDispList(QVector<QString> setting_list)
+bool StatusPanel::SetDispList(QMap<QString, QString> setting_list)
 {
   QLabel *tmp_labl;
-  QVBoxLayout *vbox = new QVBoxLayout;
-  for (qint32 i = 0; i < setting_list.size(); i++)
+  QLabel *tmp_disp_data;
+  QGridLayout *lay_grid = new QGridLayout();
+  int row               = 0;
+
+  for (QMap<QString, QString>::iterator it = setting_list.begin();
+       it != setting_list.end();
+       it++)
   {
-    tmp_labl = new QLabel(tr(setting_list[i].toStdString().c_str()));
-    vbox->addWidget(tmp_labl);
+    int col = 0;
+
+    tmp_labl = new QLabel(tr(it.key().toStdString().c_str()));
+    lay_grid->addWidget(tmp_labl, row, col);
+
+    col += 1;
+    tmp_disp_data = new QLabel(tr(it.value().toStdString().c_str()));
+    lay_grid->addWidget(tmp_disp_data, row, col);
+    row += 1;
+    // vbox->addWidget(tmp_labl);
   }
 
-  this->setLayout(vbox);
+  this->setLayout(lay_grid);
   return true;
 }
 
