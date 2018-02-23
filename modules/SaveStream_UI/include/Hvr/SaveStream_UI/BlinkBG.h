@@ -11,16 +11,16 @@ HVR_WINDOWS_ENABLE_ALL_WARNING
 
 namespace hvr
 {
-class BlinkBG : public QGroupBox
+class BlinkBG : public QWidget
 {
   Q_OBJECT
 
  public:
   SAVESTREAM_WIDGETS_DLL
-  BlinkBG();
+  explicit BlinkBG(const QString &name);
 
   SAVESTREAM_WIDGETS_DLL
-  void SetBGColorRange(QColor blink_color);
+  void SetBlinkColor(QColor blink_color);
 
  public Q_SLOTS:  // NOLINT
   SAVESTREAM_WIDGETS_DLL
@@ -29,7 +29,13 @@ class BlinkBG : public QGroupBox
   void SetBlinkOn();
 
   SAVESTREAM_WIDGETS_DLL
-  void StopBlink();
+  void SetBlinkOff();
+
+  SAVESTREAM_WIDGETS_DLL
+  void SetSteadyOn();
+
+  SAVESTREAM_WIDGETS_DLL
+  void SetSteadyOff();
 
  private:
   QColor blink_color_;

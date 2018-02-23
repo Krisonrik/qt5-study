@@ -45,11 +45,20 @@ class MainWindow : public QMainWindow
   void GlobalRefresh();
   void createActions();
   void createStatusBar();
-  void createDockWindows();
+  void CreateStatWindow();
+  void CreateSettingWindow();
+
+  QPair<qint32, qint32> CamPanelPosition(qint32 index, qint32 total);
 
   std::thread refresh_thrd_;
 
+  QDockWidget *stat_window_;
+  QDockWidget *setting_window_;
+  QDockWidget *ctrl_panel;
   QMenu *viewMenu;
+
+  QVector<QPair<QString, QString>> ir_settings_;
+  QVector<QPair<QString, QString>> rgb_settings_;
 };
 
 }  // namespace hvr

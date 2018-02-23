@@ -25,9 +25,9 @@ class StatusPanel : public QGroupBox
  private Q_SLOTS:  // NOLINT
 
  private:
-  void createActions();
+  // void createActions();
 
-  QString panel_nam_;
+  // QString panel_nam_;
 };
 
 }  // namespace hvr

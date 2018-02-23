@@ -10,17 +10,18 @@ HVR_WINDOWS_ENABLE_ALL_WARNING
 
 namespace hvr
 {
-BlinkBG::BlinkBG()
+BlinkBG::BlinkBG(const QString &name)
 {
   cur_alpha_ = 0.0;
+  setObjectName(name);
 }
 
-void BlinkBG::SetBGColorRange(QColor blink_color)
+void BlinkBG::SetBlinkColor(QColor blink_color)
 {
   blink_color_ = blink_color;
-  palette_.setColor(QPalette::Background, blink_color);
+  // palette_.setColor(QPalette::Background, blink_color);
   this->setAutoFillBackground(true);
-  this->setPalette(palette_);
+  // this->setPalette(palette_);
 }
 
 void BlinkBG::Blink()
@@ -29,7 +30,7 @@ void BlinkBG::Blink()
   {
     if (upward)
     {
-      cur_alpha_ += 0.1;
+      cur_alpha_ += 0.2;
       if (cur_alpha_ >= 1.0)
       {
         cur_alpha_ = 1.0;
@@ -38,7 +39,7 @@ void BlinkBG::Blink()
     }
     else
     {
-      cur_alpha_ -= 0.1;
+      cur_alpha_ -= 0.2;
       if (cur_alpha_ <= 0.0)
       {
         cur_alpha_ = 0.0;
@@ -49,7 +50,7 @@ void BlinkBG::Blink()
     blink_color_.setAlphaF(cur_alpha_);
     palette_.setColor(QPalette::Background, blink_color_);
     this->setPalette(palette_);
-    this->setWindowOpacity(cur_alpha_);
+    // this->setWindowOpacity(cur_alpha_);
   }
 }
 
@@ -58,10 +59,30 @@ void BlinkBG::SetBlinkOn()
   can_blink_ = true;
 }
 
-void BlinkBG::StopBlink()
+void BlinkBG::SetBlinkOff()
 {
-  can_blink_ = false;
-  palette_.setColor(QPalette::Background, Qt::gray);
+  can_blink_          = false;
+  QColor tmp_bg_color = Qt::gray;
+  tmp_bg_color.setAlphaF(0.0);
+  palette_.setColor(QPalette::Background, tmp_bg_color);
+  this->setPalette(palette_);
+}
+
+void BlinkBG::SetSteadyOn()
+{
+  can_blink_          = false;
+  QColor tmp_bg_color = blink_color_;
+  tmp_bg_color.setAlphaF(1.0);
+  palette_.setColor(QPalette::Background, tmp_bg_color);
+  this->setPalette(palette_);
+}
+
+void BlinkBG::SetSteadyOff()
+{
+  can_blink_          = false;
+  QColor tmp_bg_color = Qt::gray;
+  tmp_bg_color.setAlphaF(0.0);
+  palette_.setColor(QPalette::Background, tmp_bg_color);
   this->setPalette(palette_);
 }
 

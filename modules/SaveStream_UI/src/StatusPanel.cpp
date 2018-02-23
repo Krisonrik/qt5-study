@@ -7,16 +7,18 @@ HVR_WINDOWS_DISABLE_ALL_WARNING
 
 #include <memory>
 
-// #include <iostream>
 HVR_WINDOWS_ENABLE_ALL_WARNING
+
+#include "Hvr/SaveStream_UI/BlinkBG.h"
 
 namespace hvr
 {
 StatusPanel::StatusPanel(QString panel_nam)
 {
-  panel_nam_ = panel_nam;
-  createActions();
-  setWindowTitle(tr(panel_nam_.toStdString().c_str()));
+  // panel_nam_ = panel_nam;
+  // createActions();
+  setObjectName(panel_nam);
+  setTitle(panel_nam);
 }
 
 bool StatusPanel::SetDispList(QMap<QString, QString> setting_list)
@@ -36,8 +38,16 @@ bool StatusPanel::SetDispList(QMap<QString, QString> setting_list)
     lay_grid->addWidget(tmp_labl, row, col);
 
     col += 1;
+    QString bl_bg_nam       = tr((it.key().toStdString() + "_bg").c_str());
+    hvr::BlinkBG *tmp_bl_bg = new hvr::BlinkBG(bl_bg_nam);
+    QHBoxLayout *tmp_h_lay  = new QHBoxLayout();
+    tmp_bl_bg->SetBlinkColor(Qt::blue);
+    // tmp_bl_bg->SetBlinkOn();
+    tmp_bl_bg->SetBlinkOff();
     tmp_disp_data = new QLabel(tr(it.value().toStdString().c_str()));
-    lay_grid->addWidget(tmp_disp_data, row, col);
+    tmp_h_lay->addWidget(tmp_disp_data);
+    tmp_bl_bg->setLayout(tmp_h_lay);
+    lay_grid->addWidget(tmp_bl_bg, row, col);
     row += 1;
     // vbox->addWidget(tmp_labl);
   }
@@ -46,8 +56,8 @@ bool StatusPanel::SetDispList(QMap<QString, QString> setting_list)
   return true;
 }
 
-void StatusPanel::createActions()
-{
-}
+// void StatusPanel::createActions()
+//{
+//}
 
 }  // namespace hvr
