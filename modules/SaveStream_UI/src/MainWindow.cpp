@@ -56,6 +56,11 @@ void MainWindow::GlobalRefresh()
 
 void MainWindow::OpenNamingXML()
 {
+  if (maybeSave())
+  {
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if (!fileName.isEmpty()) loadFile(fileName);
+  }
 }
 void MainWindow::OpenConfigXML()
 {
